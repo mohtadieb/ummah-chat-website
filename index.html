@@ -1,51 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ummah Chat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+
 body{
-font-family:Arial;
-text-align:center;
-background:#0f172a;
-color:white;
-margin:0;
-padding:100px 20px;
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  background:#0f172a;
+  color:white;
 }
 
-h1{
-font-size:50px;
-margin-bottom:10px;
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
 }
 
-p{
-font-size:20px;
-opacity:0.85;
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 0;
 }
 
-button{
-margin-top:30px;
-padding:14px 30px;
-border:none;
-background:#22c55e;
-color:white;
-font-size:18px;
-border-radius:8px;
+.logo{
+  font-weight:700;
+  font-size:20px;
 }
+
+.hero{
+  text-align:center;
+  padding:80px 20px;
+}
+
+.hero h1{
+  font-size:56px;
+  margin-bottom:20px;
+}
+
+.hero p{
+  font-size:20px;
+  opacity:.8;
+  max-width:600px;
+  margin:auto;
+}
+
+.buttons{
+  margin-top:40px;
+}
+
+.button{
+  display:inline-block;
+  padding:14px 28px;
+  margin:10px;
+  background:#22c55e;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+  font-weight:600;
+}
+
+.section{
+  padding:80px 20px;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+
+.card{
+  background:#1e293b;
+  padding:30px;
+  border-radius:16px;
+}
+
+.card h3{
+  margin-top:0;
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  opacity:.6;
+}
+
 </style>
-
 </head>
 
 <body>
 
-<h1>Ummah Chat</h1>
+<div class="container">
+
+<nav>
+<div class="logo">Ummah Chat</div>
+</nav>
+
+</div>
+
+<div class="hero">
+
+<h1>Connect With The Ummah</h1>
 
 <p>
-A community-first messaging platform for Muslims.
+A community-first platform where Muslims can connect, share knowledge,
+and grow together.
 </p>
 
-<button>Coming Soon</button>
+<div class="buttons">
+
+<a class="button" href="#">
+Download on App Store
+</a>
+
+<a class="button" href="#">
+Get it on Google Play
+</a>
+
+</div>
+
+</div>
+
+<div class="section container">
+
+<h2 style="text-align:center;margin-bottom:50px;">
+Features
+</h2>
+
+<div class="features">
+
+<div class="card">
+<h3>Community Chat</h3>
+<p>Connect with Muslims worldwide and join meaningful conversations.</p>
+</div>
+
+<div class="card">
+<h3>Communities</h3>
+<p>Discover communities centered around knowledge, faith, and interests.</p>
+</div>
+
+<div class="card">
+<h3>Privacy Focused</h3>
+<p>Your conversations and community interactions remain secure.</p>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 Ummah Chat
+
+</footer>
 
 </body>
 </html>
