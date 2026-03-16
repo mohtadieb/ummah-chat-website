@@ -1,56 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Password Reset</title>
-
-<script>
-function getParams() {
-  const hash = window.location.hash.substring(1);
-  const query = window.location.search.substring(1);
-
-  const params = new URLSearchParams(hash || query);
-
-  return {
-    token_hash: params.get("token_hash"),
-    type: params.get("type")
-  };
-}
-
-window.onload = () => {
-
-  const p = getParams();
-
-  const deepLink =
-    "ummahchat://reset-password" +
-    "?token_hash=" + encodeURIComponent(p.token_hash || "") +
-    "&type=" + encodeURIComponent(p.type || "");
-
-  window.location.href = deepLink;
-
-  setTimeout(() => {
-    document.getElementById("fallback").style.display = "block";
-  }, 1500);
-};
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reset password • Ummah Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #F6FAF7;
+      color: #163128;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border: 1px solid #E3EFE8;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+    .hero {
+      background: linear-gradient(135deg, #0D6746, #2D8C67, #7BC6A4);
+      color: white;
+      padding: 36px 28px;
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+    .hero p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.5;
+      opacity: 0.96;
+    }
+    .body {
+      padding: 28px;
+      text-align: center;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 16px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
+      background: linear-gradient(135deg, #0D6746, #2D8C67, #7BC6A4);
+      box-shadow: 0 10px 22px rgba(13,103,70,0.22);
+    }
+    .small {
+      margin-top: 18px;
+      color: #5b6d65;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .footer {
+      padding: 18px 28px;
+      border-top: 1px solid #E3EFE8;
+      text-align: center;
+      font-size: 12px;
+      color: #8a9892;
+    }
+    #fallback {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
 </head>
+<body>
+  <div class="card">
+    <div class="hero">
+      <h1>Reset your password</h1>
+      <p>Opening Ummah Chat…</p>
+    </div>
 
-<body style="font-family:sans-serif;text-align:center;margin-top:80px">
+    <div class="body">
+      <p>We’re sending you back to the app so you can choose a new password.</p>
 
-<h2>Reset your password</h2>
-<p>Opening Ummah Chat...</p>
+      <div id="fallback">
+        <p class="small">If the app did not open automatically, tap below.</p>
+        <a class="button" id="openAppLink" href="#">Open Ummah Chat</a>
+      </div>
+    </div>
 
-<div id="fallback" style="display:none">
-<p>If the app didn't open automatically:</p>
-<a id="openLink">Open Ummah Chat</a>
-</div>
+    <div class="footer">Ummah Chat</div>
+  </div>
 
-<script>
-document.getElementById("openLink").href = window.location.href.replace(
-  window.location.origin + "/auth/recovery",
-  "ummahchat://reset-password"
-);
-</script>
+  <script>
+    function readParams() {
+      const query = new URLSearchParams(window.location.search);
+      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
 
+      return {
+        token_hash: query.get('token_hash') || hash.get('token_hash') || '',
+        type: query.get('type') || hash.get('type') || '',
+      };
+    }
+
+    const p = readParams();
+
+    const deepLink =
+      'ummahchat://reset-password' +
+      '?token_hash=' + encodeURIComponent(p.token_hash) +
+      '&type=' + encodeURIComponent(p.type);
+
+    document.getElementById('openAppLink').href = deepLink;
+
+    window.location.href = deepLink;
+
+    setTimeout(() => {
+      document.getElementById('fallback').style.display = 'block';
+    }, 1500);
+  </script>
 </body>
 </html>
