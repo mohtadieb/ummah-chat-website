@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Email confirmation</title>
+
+<script>
+function getParams() {
+  const hash = window.location.hash.substring(1);
+  const query = window.location.search.substring(1);
+
+  const params = new URLSearchParams(hash || query);
+
+  return {
+    access_token: params.get("access_token"),
+    refresh_token: params.get("refresh_token"),
+    type: params.get("type")
+  };
+}
+
+window.onload = () => {
+
+  const p = getParams();
+
+  const deepLink =
+    "ummahchat://auth-callback" +
+    "#access_token=" + encodeURIComponent(p.access_token || "") +
+    "&refresh_token=" + encodeURIComponent(p.refresh_token || "") +
+    "&type=" + encodeURIComponent(p.type || "");
+
+  window.location.href = deepLink;
+
+  setTimeout(() => {
+    document.getElementById("fallback").style.display = "block";
+  }, 1500);
+};
+</script>
+</head>
+
+<body style="font-family:sans-serif;text-align:center;margin-top:80px">
+
+<h2>Email confirmed</h2>
+<p>Opening Ummah Chat...</p>
+
+<div id="fallback" style="display:none">
+<p>If the app didn't open automatically:</p>
+<a id="openLink">Open Ummah Chat</a>
+</div>
+
+<script>
+document.getElementById("openLink").href = window.location.href.replace(
+  window.location.origin + "/auth/confirm",
+  "ummahchat://auth-callback"
+);
+</script>
+
+</body>
+</html>
