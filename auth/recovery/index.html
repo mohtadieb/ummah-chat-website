@@ -1,127 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reset password • Ummah Chat</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #F6FAF7;
-      color: #163128;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    .card {
-      width: 100%;
-      max-width: 520px;
-      background: #fff;
-      border: 1px solid #E3EFE8;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-    }
-    .hero {
-      background: linear-gradient(135deg, #0D6746, #2D8C67, #7BC6A4);
-      color: white;
-      padding: 36px 28px;
-      text-align: center;
-    }
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: 30px;
-      line-height: 1.1;
-    }
-    .hero p {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.5;
-      opacity: 0.96;
-    }
-    .body {
-      padding: 28px;
-      text-align: center;
-    }
-    .button {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 16px 24px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 16px;
-      color: white;
-      background: linear-gradient(135deg, #0D6746, #2D8C67, #7BC6A4);
-      box-shadow: 0 10px 22px rgba(13,103,70,0.22);
-    }
-    .small {
-      margin-top: 18px;
-      color: #5b6d65;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .footer {
-      padding: 18px 28px;
-      border-top: 1px solid #E3EFE8;
-      text-align: center;
-      font-size: 12px;
-      color: #8a9892;
-    }
-    #fallback {
-      display: none;
-      margin-top: 20px;
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ummah Chat — Reset password</title>
+<style>
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#F6FAF7;
+color:#163128;
+display:flex;
+min-height:100vh;
+align-items:center;
+justify-content:center;
+padding:24px;
+}
+.card{
+width:100%;
+max-width:560px;
+background:white;
+border:1px solid #E3EFE8;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 14px 40px rgba(0,0,0,0.06);
+}
+.hero{
+padding:36px 28px;
+color:white;
+text-align:center;
+background:linear-gradient(135deg,#0D6746,#2D8C67,#7BC6A4);
+}
+.content{
+padding:32px 28px;
+text-align:center;
+}
+.input{
+width:100%;
+box-sizing:border-box;
+padding:14px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #DDEAE2;
+font-size:15px;
+}
+.button{
+display:inline-block;
+background:linear-gradient(135deg,#0D6746,#2D8C67,#7BC6A4);
+color:white;
+font-weight:700;
+padding:16px 26px;
+border-radius:14px;
+text-decoration:none;
+font-size:16px;
+box-shadow:0 10px 22px rgba(13,103,70,0.22);
+border:0;
+cursor:pointer;
+margin-top:16px;
+}
+.muted{
+color:#666;
+line-height:1.5;
+}
+.footer{
+padding:20px 28px;
+text-align:center;
+font-size:12px;
+color:#999;
+border-top:1px solid #E3EFE8;
+}
+.hidden{
+display:none;
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <div class="hero">
-      <h1>Reset your password</h1>
-      <p>Opening Ummah Chat…</p>
+
+<div class="card">
+  <div class="hero">
+    <div style="font-size:30px;font-weight:800;">
+      Reset your password
     </div>
 
-    <div class="body">
-      <p>We’re sending you back to the app so you can choose a new password.</p>
-
-      <div id="fallback">
-        <p class="small">If the app did not open automatically, tap below.</p>
-        <a class="button" id="openAppLink" href="#">Open Ummah Chat</a>
-      </div>
+    <div style="margin-top:10px;font-size:15px;line-height:1.5;">
+      Enter a new password for your Ummah Chat account.
     </div>
-
-    <div class="footer">Ummah Chat</div>
   </div>
 
-  <script>
-    function readParams() {
-      const query = new URLSearchParams(window.location.search);
-      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  <div class="content">
+    <p id="status" class="muted">Checking your reset link...</p>
 
-      return {
-        token_hash: query.get('token_hash') || hash.get('token_hash') || '',
-        type: query.get('type') || hash.get('type') || '',
-      };
-    }
+    <div id="resetBox" class="hidden">
+      <input id="password1" class="input" type="password" placeholder="New password" />
+      <input id="password2" class="input" type="password" placeholder="Confirm password" />
+      <button class="button" id="updateBtn">Update password</button>
+    </div>
 
-    const p = readParams();
+    <div id="successBox" class="hidden">
+      <p style="font-size:22px;font-weight:800;">Password updated</p>
+      <p class="muted">You can now log in to Ummah Chat with your new password.</p>
+      <a class="button" href="ummahchat://reset-password">Open Ummah Chat app</a>
+    </div>
 
+    <div id="errorBox" class="hidden">
+      <p style="font-size:22px;font-weight:800;">Reset failed</p>
+      <p id="errorText" class="muted">The reset link may be expired or invalid.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Ummah Chat
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const SUPABASE_URL = "https://njotewktazwhoprvhsvj.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_UMMAH_CHAT_ANON_KEY";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const params = new URLSearchParams(window.location.search);
+const token_hash = params.get("token_hash");
+const type = params.get("type");
+
+const status = document.getElementById("status");
+const resetBox = document.getElementById("resetBox");
+const successBox = document.getElementById("successBox");
+const errorBox = document.getElementById("errorBox");
+const errorText = document.getElementById("errorText");
+const updateBtn = document.getElementById("updateBtn");
+
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+async function startRecovery() {
+  if (!token_hash || !type) {
+    status.style.display = "none";
+    errorBox.classList.remove("hidden");
+    errorText.textContent = "Missing token or type in the recovery URL.";
+    return;
+  }
+
+  if (isMobile) {
     const deepLink =
-      'ummahchat://reset-password' +
-      '?token_hash=' + encodeURIComponent(p.token_hash) +
-      '&type=' + encodeURIComponent(p.type);
-
-    document.getElementById('openAppLink').href = deepLink;
+      `ummahchat://reset-password?token_hash=${encodeURIComponent(token_hash)}&type=${encodeURIComponent(type)}`;
 
     window.location.href = deepLink;
 
     setTimeout(() => {
-      document.getElementById('fallback').style.display = 'block';
-    }, 1500);
-  </script>
+      status.textContent = "If the app did not open automatically, tap the button below.";
+
+      const fallbackBtn = document.createElement("a");
+      fallbackBtn.href = deepLink;
+      fallbackBtn.className = "button";
+      fallbackBtn.textContent = "Open Ummah Chat app";
+      status.insertAdjacentElement("afterend", fallbackBtn);
+    }, 1200);
+
+    return;
+  }
+
+  try {
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash,
+      type
+    });
+
+    if (error) throw error;
+
+    status.style.display = "none";
+    resetBox.classList.remove("hidden");
+  } catch (err) {
+    status.style.display = "none";
+    errorBox.classList.remove("hidden");
+    errorText.textContent = err?.message || "The reset link may be expired or invalid.";
+  }
+}
+
+async function updatePassword() {
+  const p1 = document.getElementById("password1").value;
+  const p2 = document.getElementById("password2").value;
+
+  if (!p1 || p1 !== p2) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: p1
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  resetBox.classList.add("hidden");
+  successBox.classList.remove("hidden");
+}
+
+updateBtn.addEventListener("click", updatePassword);
+startRecovery();
+</script>
+
 </body>
 </html>
