@@ -1,164 +1,638 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ummah Chat</title>
 
-<title>Ummah Chat</title>
+  <style>
+    :root {
+      --bg: #0d2f33;
+      --bg-2: #123c40;
+      --card: rgba(255, 255, 255, 0.06);
+      --card-strong: rgba(255, 255, 255, 0.08);
+      --text: #f7f3e8;
+      --muted: rgba(247, 243, 232, 0.78);
+      --gold: #dbc88b;
+      --gold-soft: #efe5be;
+      --border: rgba(219, 200, 139, 0.24);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
 
-<style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
-  background:#0f172a;
-  color:white;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:40px 20px;
-}
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(219, 200, 139, 0.08), transparent 28%),
+        linear-gradient(180deg, #0b2c30 0%, #123b40 48%, #0f3135 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 0;
-}
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.logo{
-  font-weight:700;
-  font-size:20px;
-}
+    body::before {
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 14%, rgba(255,255,255,0.09) 0 2px, transparent 3px),
+        radial-gradient(circle at 32% 42%, rgba(255,255,255,0.08) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 88% 58%, rgba(255,255,255,0.08) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 10% 76%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+        radial-gradient(circle at 64% 80%, rgba(255,255,255,0.08) 0 2px, transparent 3px);
+      opacity: 0.7;
+    }
 
-.hero{
-  text-align:center;
-  padding:80px 20px;
-}
+    body::after {
+      background:
+        radial-gradient(ellipse at bottom left, rgba(255,255,255,0.08), transparent 38%),
+        radial-gradient(ellipse at bottom right, rgba(255,255,255,0.08), transparent 36%);
+      opacity: 0.35;
+    }
 
-.hero h1{
-  font-size:56px;
-  margin-bottom:20px;
-}
+    .page {
+      position: relative;
+      z-index: 1;
+    }
 
-.hero p{
-  font-size:20px;
-  opacity:.8;
-  max-width:600px;
-  margin:auto;
-}
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
 
-.buttons{
-  margin-top:40px;
-}
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 31, 34, 0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
 
-.button{
-  display:inline-block;
-  padding:14px 28px;
-  margin:10px;
-  background:#22c55e;
-  color:white;
-  text-decoration:none;
-  border-radius:10px;
-  font-weight:600;
-}
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-.section{
-  padding:80px 20px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
 
-.features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:30px;
-}
+    .brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.24);
+      background: rgba(255,255,255,0.08);
+    }
 
-.card{
-  background:#1e293b;
-  padding:30px;
-  border-radius:16px;
-}
+    .brand span {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--gold-soft);
+    }
 
-.card h3{
-  margin-top:0;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
 
-footer{
-  text-align:center;
-  padding:40px;
-  opacity:.6;
-}
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.98rem;
+    }
 
-</style>
+    .nav-links a:hover {
+      color: var(--gold-soft);
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: var(--gold-soft);
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "✦";
+      color: var(--gold);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      color: var(--gold-soft);
+      text-shadow: 0 4px 22px rgba(0,0,0,0.18);
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 22px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+    }
+
+    .button:hover,
+    .button-secondary:hover {
+      transform: translateY(-1px);
+    }
+
+    .button {
+      color: #173332;
+      background: linear-gradient(135deg, #efe1a8, #d8c178);
+      box-shadow: 0 16px 28px rgba(0,0,0,0.22);
+    }
+
+    .button-secondary {
+      color: var(--gold-soft);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card img {
+      width: 100%;
+      display: block;
+      border-radius: 22px;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .floating-badge {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(10, 28, 30, 0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      max-width: 72%;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    }
+
+    .floating-badge strong {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.96rem;
+      margin-bottom: 3px;
+    }
+
+    .floating-badge span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .section {
+      padding: 34px 0 26px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--gold-soft);
+      letter-spacing: -0.03em;
+    }
+
+    .section-title p {
+      margin: 0 auto;
+      max-width: 720px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .card .icon {
+      width: 46px;
+      height: 46px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      background: rgba(219, 200, 139, 0.14);
+      color: var(--gold-soft);
+      font-size: 1.25rem;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--gold-soft);
+      font-size: 1.18rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .shot {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .shot img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .stat-card {
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      color: var(--gold-soft);
+    }
+
+    .stat-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .cta-panel {
+      margin-top: 26px;
+      padding: 32px 24px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(219,200,139,0.16), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-panel h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      color: var(--gold-soft);
+    }
+
+    .cta-panel p {
+      margin: 0 auto;
+      max-width: 700px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 34px 0 44px;
+    }
+
+    .footer-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 22px;
+    }
+
+    .footer-box p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--gold-soft);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split,
+      .features,
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-grid {
+        align-items: stretch;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        min-height: 72px;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero-grid,
+      .split,
+      .features,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .floating-badge {
+        max-width: calc(100% - 40px);
+      }
+
+      .cta-row {
+        flex-direction: column;
+      }
+
+      .button,
+      .button-secondary {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
+    <div class="topbar">
+      <div class="container">
+        <nav class="nav">
+          <a class="brand" href="#">
+            <img src="icon.png" alt="Ummah Chat icon" />
+            <span>Ummah Chat</span>
+          </a>
 
-<div class="container">
+          <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#onboarding">Preview</a>
+            <a href="privacy/index.html">Privacy</a>
+            <a href="terms/index.html">Terms</a>
+          </div>
+        </nav>
+      </div>
+    </div>
 
-<nav>
-<div class="logo">Ummah Chat</div>
-</nav>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Faith-centered connection</div>
 
-</div>
+            <h1>Connect, grow, and belong with the Ummah.</h1>
 
-<div class="hero">
+            <p>
+              Ummah Chat is a community-first app designed for meaningful Muslim connection —
+              from duas and stories to proposals, families, communities, and everyday conversations
+              rooted in shared values.
+            </p>
 
-<h1>Connect With The Ummah</h1>
+            <div class="cta-row">
+              <a class="button" href="#">Download on App Store</a>
+              <a class="button-secondary" href="#">Get it on Google Play</a>
+            </div>
+          </div>
 
-<p>
-A community-first platform where Muslims can connect, share knowledge,
-and grow together.
-</p>
+          <div class="hero-card">
+            <img src="assets/onboarding_4.png" alt="Ummah Chat onboarding preview" />
+            <div class="floating-badge">
+              <strong>Community with intention</strong>
+              <span>Built for spiritual connection, meaningful relationships, and a global Muslim network.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="buttons">
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>Built around faith, family, and connection</h2>
+          <p>
+            Discover a more intentional way to connect online — with features designed to support
+            spiritual growth, proposal journeys, community life, and lasting relationships.
+          </p>
+        </div>
 
-<a class="button" href="#">
-Download on App Store
-</a>
+        <div class="features">
+          <div class="card">
+            <div class="icon">🤲</div>
+            <h3>Dua & Stories</h3>
+            <p>Start your day with spiritual connection through duas, reflections, and inspiring stories.</p>
+          </div>
 
-<a class="button" href="#">
-Get it on Google Play
-</a>
+          <div class="card">
+            <div class="icon">💍</div>
+            <h3>Proposal & Intent</h3>
+            <p>Find a partner who shares your values in a more thoughtful and purpose-driven environment.</p>
+          </div>
 
-</div>
+          <div class="card">
+            <div class="icon">🌙</div>
+            <h3>Global Ummah</h3>
+            <p>Chat, engage, and build bonds with Muslims around the world through shared faith and community.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</div>
+    <section class="section" id="onboarding">
+      <div class="container">
+        <div class="section-title">
+          <h2>See the experience</h2>
+          <p>
+            A visual glimpse of the Ummah Chat experience, inspired by intentional living,
+            Islamic identity, and modern community design.
+          </p>
+        </div>
 
-<div class="section container">
+        <div class="gallery">
+          <div class="shot">
+            <img src="assets/onboarding_1.png" alt="Dua and stories onboarding screen" />
+          </div>
+          <div class="shot">
+            <img src="assets/onboarding_2.png" alt="Proposal and intent onboarding screen" />
+          </div>
+          <div class="shot">
+            <img src="assets/onboarding_3.png" alt="Relationships and community onboarding screen" />
+          </div>
+          <div class="shot">
+            <img src="assets/onboarding_4.png" alt="Global community onboarding screen" />
+          </div>
+        </div>
 
-<h2 style="text-align:center;margin-bottom:50px;">
-Features
-</h2>
+        <div class="split">
+          <div class="stat-card">
+            <h3>Meaningful conversation</h3>
+            <p>
+              More than messaging — Ummah Chat is built to encourage beneficial connection,
+              intentional communication, and a stronger sense of belonging.
+            </p>
+          </div>
 
-<div class="features">
+          <div class="stat-card">
+            <h3>Designed with care</h3>
+            <p>
+              From onboarding to privacy pages, every detail is crafted to feel calm,
+              elegant, and aligned with the spirit of the app.
+            </p>
+          </div>
+        </div>
 
-<div class="card">
-<h3>Community Chat</h3>
-<p>Connect with Muslims worldwide and join meaningful conversations.</p>
-</div>
+        <div class="cta-panel">
+          <h2>Join a more intentional digital community</h2>
+          <p>
+            Whether you are seeking spiritual reminders, meaningful community, or a platform
+            centered around Muslim values, Ummah Chat is built to support that journey.
+          </p>
 
-<div class="card">
-<h3>Communities</h3>
-<p>Discover communities centered around knowledge, faith, and interests.</p>
-</div>
+          <div class="cta-row" style="justify-content:center;">
+            <a class="button" href="#">Download on App Store</a>
+            <a class="button-secondary" href="#">Get it on Google Play</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<h3>Privacy Focused</h3>
-<p>Your conversations and community interactions remain secure.</p>
-</div>
+    <footer>
+      <div class="container">
+        <div class="footer-box">
+          <p>© 2026 Ummah Chat</p>
 
-</div>
-
-</div>
-
-<footer>
-
-© 2026 Ummah Chat
-
-</footer>
-
+          <div class="footer-links">
+            <a href="privacy/index.html">Privacy Policy</a>
+            <a href="terms/index.html">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
